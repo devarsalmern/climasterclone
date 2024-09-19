@@ -1,0 +1,40 @@
+/* About.css */
+.about-container {
+  padding: 50px;
+  text-align: center;
+}
+
+.about-hero {
+  background-color: #f5f5f5;
+  padding: 100px 0;
+}
+
+.about-hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.about-hero p {
+  font-size: 20px;
+  color: #666;
+}
+
+.about-details,
+.our-mission,
+.team {
+  margin-top: 50px;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.team-member img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}

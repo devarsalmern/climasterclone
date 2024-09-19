@@ -1,0 +1,64 @@
+.hero {
+  text-align: left; /* Align text to the left */
+  padding: 50px 20px;
+  max-width: 600px; /* Optional: Limit width for better layout */
+  margin-left: 170px; /* Increased left margin */
+  margin-top: 130px; /* Added top margin for spacing */
+}
+
+.typing-effect {
+  display: inline-block;
+  border-right: 3px solid #28a745; /* Cursor effect */
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blink 0.75s step-end infinite;
+  font-size: 32px; /* Adjust font size if needed */
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.interests {
+  margin-top: 20px; /* Adjust margin as needed */
+  display: flex; /* Use flexbox for button layout */
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+}
+
+.interests button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Random button colors */
+.interests button:nth-child(1) {
+  background-color: #ff5733; /* Red */
+}
+
+.interests button:nth-child(2) {
+  background-color: #33ff57; /* Green */
+}
+
+.interests button:nth-child(3) {
+  background-color: #3357ff; /* Blue */
+}
+
+.interests button:nth-child(4) {
+  background-color: #ff33a6; /* Pink */
+}
+
+.interests button:nth-child(5) {
+  background-color: #f1c40f; /* Yellow */
+}
+
+.interests button:nth-child(6) {
+  background-color: #8e44ad; /* Purple */
+}
+
+/* Add more button colors as needed */

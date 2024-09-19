@@ -1,0 +1,90 @@
+/* Container for the main content including the sidebar */
+.app-container {
+  display: flex;
+  flex-direction: row; /* Side by side layout */
+  height: 100vh; /* Full viewport height */
+}
+
+/* PDF container on the left */
+.pdf-container {
+  flex: 1; /* Take the remaining space */
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  padding: 20px;
+  overflow: auto; /* Allow scrolling if the PDF is larger */
+}
+
+/* Adjust the PDF viewer styling */
+.pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+}
+
+/* Position the right sidebar */
+.sidebar-container {
+  width: 300px; /* Fixed width for the sidebar */
+  height: 100%; /* Full height of the container */
+  position: fixed; /* Fix the sidebar in place */
+  right: 0; /* Align to the right side */
+  top: 0; /* Align to the top */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Optional: Shadow for visual separation */
+}
+
+/* Make the content background transparent */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px; /* Optional: Add border radius for a rounded look */
+  max-width: 100%;
+}
+
+/* Avatar section styling */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+}
+
+/* Description styling */
+.description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333; /* Adjust color as needed */
+}
+
+/* Recent posts section styling */
+.recent-posts {
+  max-width: 100%;
+}
+
+.recent-posts h2 {
+  margin-bottom: 10px;
+}
+
+/* Post styling */
+.post {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.post:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Highlight on hover */
+}

@@ -1,0 +1,30 @@
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  position: relative; /* Position relative for the pseudo-element */
+  color: #fff; /* Change text color for better visibility */
+  height: 100vh; /* Ensure body takes full height */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+body::before {
+  content: ""; /* Required for pseudo-element */
+  position: absolute; /* Position absolute to cover the body */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Cover full width */
+  height: 100%; /* Cover full height */
+  background-image: url("./images/bck.jpg"); /* Path to your image */
+  background-size: cover; /* Cover the entire viewport */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent the background image from repeating */
+  opacity: 0.8; /* Adjust opacity to dim the image */
+  z-index: -1; /* Ensure it’s behind the content */
+}
+
+h1,
+p,
+button {
+  position: relative; /* Ensure text and buttons stay above the overlay */
+  z-index: 1; /* Bring them above the pseudo-element */
+}
